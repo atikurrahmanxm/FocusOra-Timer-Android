@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>FocusOra - Premium Clock Timer</title>
+    <!-- Outfit Font from Google Fonts for a premium, modern feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Roboto+Condensed:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+    <!-- App Container -->
+    <div id="app" class="app-container">
+        <!-- Top App Bar -->
+        <header class="app-header">
+            <div class="logo-area">
+                <span class="logo-dot"></span>
+                <h1 id="header-title">FocusOra</h1>
+            </div>
+            <div class="header-actions">
+                <button id="quick-fullscreen-btn" title="Quick Fullscreen" class="icon-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- TIMER VIEW -->
+            <section id="view-timer" class="app-view active">
+                <!-- Subject Badge Selector -->
+                <div class="timer-subject-selector">
+                    <span class="selector-label">Currently Studying:</span>
+                    <div id="active-subject-badge" class="active-subject-badge">
+                        <span id="active-subject-icon">📚</span>
+                        <span id="active-subject-name">Select Subject</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    </div>
+                </div>
+
+                <!-- Subject Dropdown List (Overlay) -->
+                <div id="subject-dropdown" class="subject-dropdown">
+                    <div class="dropdown-header">
+                        <h3>Choose a Subject</h3>
+                        <button id="close-dropdown-btn" class="text-btn">Cancel</button>
+                    </div>
+                    <div id="dropdown-list" class="dropdown-list">
+                        <!-- Dynamic items -->
+                    </div>
+                    <div class="dropdown-footer">
+                        <button id="add-subject-shortcut-btn" class="action-btn secondary-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-7-7v14"/></svg>
+                            Create New Subject
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Timer Ring Area -->
+                <div class="timer-display-container">
+                    <svg class="timer-svg" viewBox="0 0 220 220">
+                        <circle class="timer-track" cx="110" cy="110" r="95"></circle>
+                        <circle id="timer-progress" class="timer-progress" cx="110" cy="110" r="95" stroke-dasharray="597" stroke-dashoffset="0"></circle>
+                    </svg>
+                    <div class="timer-text-container">
+                        <div id="timer-numbers" class="timer-digits">30:00</div>
+                        <div id="timer-subject-mini" class="timer-subtext">General Study</div>
+                    </div>
+                </div>
+
+                <!-- Time Presets -->
+                <div class="timer-presets">
+                    <button class="preset-btn active" data-time="30">30m</button>
+                    <button class="preset-btn" data-time="60">1h</button>
+                    <button class="preset-btn" data-time="120">2h</button>
+                    <button class="preset-btn" data-time="240">4h</button>
+                    <button id="custom-time-btn" class="custom-preset-btn">Custom</button>
+                </div>
+
+
+
+                <!-- Control Buttons -->
+                <div class="timer-controls">
+                    <button id="reset-timer-btn" class="ctrl-btn reset" title="Reset">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    </button>
+                    
+                    <button id="play-pause-btn" class="ctrl-btn play" title="Start Timer">
+                        <svg id="play-icon" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        <svg id="pause-icon" class="hidden" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    </button>
+
+                    <button id="enter-fullscreen-btn" class="ctrl-btn fullscreen" title="Fullscreen Mode">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                    </button>
+                </div>
+            </section>
+
+            <!-- SUBJECTS VIEW -->
+            <section id="view-subjects" class="app-view">
+                <div class="section-header">
+                    <h2>Your Subjects</h2>
+                    <p class="section-desc">Create specific folders to track focus sessions individually.</p>
+                </div>
+
+                <div class="subjects-list-container">
+                    <div id="subjects-grid" class="subjects-grid">
+                        <!-- Dynamic Subjects go here -->
+                    </div>
+                </div>
+
+                <button id="add-subject-btn" class="floating-action-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-7-7v14"/></svg>
+                </button>
+
+
+            </section>
+
+            <!-- DASHBOARD VIEW -->
+            <section id="view-dashboard" class="app-view">
+                <div class="section-header">
+                    <h2>Analytics Dashboard</h2>
+                    <p class="section-desc">Analyze your study statistics and trends over time.</p>
+                </div>
+
+                <!-- Focus Summary Stats -->
+                <div class="dashboard-stats-grid">
+                    <div class="stat-card glass-card">
+                        <span class="stat-label">Today</span>
+                        <span id="stat-today" class="stat-value">0h 0m</span>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <span class="stat-label">This Week</span>
+                        <span id="stat-week" class="stat-value">0h 0m</span>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <span class="stat-label">This Month</span>
+                        <span id="stat-month" class="stat-value">0h 0m</span>
+                    </div>
+                </div>
+
+                <!-- Study Activity Chart Section -->
+                <div class="dashboard-chart-card glass-card">
+                    <div class="chart-header-row">
+                        <div class="chart-title-area">
+                            <h3 id="chart-section-title">Study Activity</h3>
+                            <p id="chart-section-subtitle" class="chart-subtitle">Daily breakdown for the last 7 days</p>
+                        </div>
+                        <div class="chart-toggle-group">
+                            <button id="btn-chart-daily" class="chart-toggle-btn active">Daily</button>
+                            <button id="btn-chart-monthly" class="chart-toggle-btn">Monthly</button>
+                        </div>
+                    </div>
+                    <div class="chart-container" id="monthly-chart-container">
+                        <!-- Custom SVG bar chart rendered dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- Subject Distribution Section -->
+                <div class="dashboard-chart-card glass-card">
+                    <h3>Subject Share</h3>
+                    <p class="chart-subtitle">Time distribution across subjects</p>
+                    <div class="distribution-chart-wrapper">
+                        <div class="donut-chart-container" id="donut-chart-container">
+                            <!-- Custom SVG donut chart rendered dynamically via JS -->
+                        </div>
+                        <div id="chart-legend" class="chart-legend">
+                            <!-- Legends matching subject color codes -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Log Section -->
+                <div class="history-section glass-card">
+                    <div class="history-header">
+                        <h3>Recent Sessions</h3>
+                        <button id="clear-history-btn" class="text-btn warning-text">Clear Logs</button>
+                    </div>
+                    <div id="history-list" class="history-list">
+                        <!-- Dynamic History items -->
+                        <div class="empty-state">No study history recorded yet. Select a subject and start studying!</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SETTINGS VIEW -->
+            <section id="view-settings" class="app-view">
+                <div class="section-header">
+                    <h2>Settings</h2>
+                    <p class="section-desc">Customize sound, controls, and data configurations.</p>
+                </div>
+
+                <div class="settings-group glass-card">
+                    <h3>Sound & Alert</h3>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <span class="setting-name">Completion Alarm</span>
+                            <span class="setting-sub">Alarm melody when timer counts down to 0</span>
+                        </div>
+                        <select id="alarm-sound-select" class="settings-select">
+                            <option value="chime">✨ Gentle Chime</option>
+                            <option value="digital">⌚ Retro Digital</option>
+                            <option value="zen">🥣 Zen Singing Bowl</option>
+                            <option value="sunrise">🌅 Happy Sunrise</option>
+                            <option value="cosmic">🌌 Cosmic Glow</option>
+                            <option value="clock">⏰ Classic Clock</option>
+                            <option value="bird">🐦 Forest Chirp</option>
+                            <option value="elevate">🚀 Elevate Arpeggio</option>
+                            <option value="bell">🔔 Echo Bell</option>
+                            <option value="fanfare">🏆 Victory Fanfare</option>
+                            <option value="none">📳 Vibrate Only</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <span class="setting-name">Alarm Volume</span>
+                        </div>
+                        <input type="range" id="alarm-volume-slider" min="0" max="100" value="80" class="settings-slider">
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <span class="setting-name">Device Vibration</span>
+                            <span class="setting-sub">Vibrate when timer finishes</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="vibrate-toggle" checked>
+                            <span class="slider-round"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-group glass-card">
+                    <h3>Data Management</h3>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <span class="setting-name">Backup Study Data</span>
+                            <span class="setting-sub">Export your logs and settings to a JSON file</span>
+                        </div>
+                        <button id="export-data-btn" class="action-btn secondary-btn small-btn">Export</button>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <span class="setting-name">Restore Data</span>
+                            <span class="setting-sub">Import settings from an exported JSON backup</span>
+                        </div>
+                        <button id="import-data-btn" class="action-btn secondary-btn small-btn">Import</button>
+                        <input type="file" id="import-file-input" class="hidden" accept=".json">
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <span class="setting-name">Reset Application</span>
+                            <span class="setting-sub warning-text">Wipe all study logs, subjects, and settings</span>
+                        </div>
+                        <button id="factory-reset-btn" class="action-btn danger-btn small-btn">Reset All</button>
+                    </div>
+
+                    <!-- Developer Info Settings Footer -->
+                    <div class="settings-footer-info">
+                        <p>Developer: Atikur Rahman</p>
+                        <p>FocusOra | Version 1.1.0</p>
+                        <p class="update-timestamp">Last Updated: 28 May 2026, 04:48 PM</p>
+                    </div>
+                </div>
+
+
+
+            </section>
+        </main>
+
+        <!-- Custom Duration Picker Modal (Root Level) -->
+        <div id="custom-picker-modal" class="modal">
+            <div class="modal-content glass-card">
+                <h2>Set Custom Time</h2>
+                <div class="picker-inputs">
+                    <div class="picker-group">
+                        <label for="picker-hours">Hours</label>
+                        <input type="number" id="picker-hours" min="0" max="23" value="0">
+                    </div>
+                    <span class="picker-colon">:</span>
+                    <div class="picker-group">
+                        <label for="picker-minutes">Minutes</label>
+                        <input type="number" id="picker-minutes" min="0" max="59" value="25">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button id="cancel-custom-btn" class="action-btn secondary-btn">Cancel</button>
+                    <button id="apply-custom-btn" class="action-btn primary-btn">Apply</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Subject Modal (Root Level) -->
+        <div id="subject-modal" class="modal">
+            <div class="modal-content glass-card">
+                <h2 id="subject-modal-title">New Subject</h2>
+                <div class="input-group">
+                    <label for="subject-name-input">Subject Name</label>
+                    <input type="text" id="subject-name-input" placeholder="e.g. English, Math, Coding" maxlength="20">
+                </div>
+                
+                <div class="input-group">
+                    <label>Pick an Icon</label>
+                    <div class="emoji-selector">
+                        <span class="emoji-option active">📚</span>
+                        <span class="emoji-option">📐</span>
+                        <span class="emoji-option">💻</span>
+                        <span class="emoji-option">🧪</span>
+                        <span class="emoji-option">🎨</span>
+                        <span class="emoji-option">✍️</span>
+                        <span class="emoji-option">🧠</span>
+                        <span class="emoji-option">🌍</span>
+                        <span class="emoji-option">🎼</span>
+                        <span class="emoji-option">⏱️</span>
+                        <span class="emoji-option">📖</span>
+                        <span class="emoji-option">📝</span>
+                        <span class="emoji-option">🎧</span>
+                        <span class="emoji-option">🗣️</span>
+                        <span class="emoji-option">🎓</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Choose Theme Color</label>
+                    <div class="color-selector">
+                        <span class="color-option active" style="background-color: #3b82f6;" data-color="#3b82f6"></span>
+                        <span class="color-option" style="background-color: #10b981;" data-color="#10b981"></span>
+                        <span class="color-option" style="background-color: #8b5cf6;" data-color="#8b5cf6"></span>
+                        <span class="color-option" style="background-color: #ec4899;" data-color="#ec4899"></span>
+                        <span class="color-option" style="background-color: #f59e0b;" data-color="#f59e0b"></span>
+                        <span class="color-option" style="background-color: #ef4444;" data-color="#ef4444"></span>
+                        <span class="color-option" style="background-color: #06b6d4;" data-color="#06b6d4"></span>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button id="cancel-subject-btn" class="action-btn secondary-btn">Cancel</button>
+                    <button id="save-subject-btn" class="action-btn primary-btn">Save Subject</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="app-nav">
+            <button class="nav-tab active" data-view="view-timer">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span>Timer</span>
+            </button>
+            <button class="nav-tab" data-view="view-subjects">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
+                <span>Subjects</span>
+            </button>
+            <button class="nav-tab" data-view="view-dashboard">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                <span>Dashboard</span>
+            </button>
+            <button class="nav-tab" data-view="view-settings">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                <span>Settings</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Pitch-Black Fullscreen Distraction-Free Overlay -->
+    <div id="fullscreen-overlay" class="fullscreen-overlay">
+        <div class="fullscreen-timer-container">
+            <div id="fullscreen-timer-digits" class="fullscreen-digits">30:00</div>
+            <div id="fullscreen-subject-label" class="fullscreen-subtext">English</div>
+            <div class="fullscreen-instruction">Double tap or double click to exit focus</div>
+        </div>
+    </div>
+
+    <!-- Premium Custom Confirmation Modal -->
+    <div id="confirm-modal" class="modal-overlay hidden">
+        <div class="modal-container glass-card confirm-modal-container">
+            <div class="modal-header">
+                <h3 id="confirm-title">Confirm Action</h3>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-message">Are you sure you want to proceed?</p>
+            </div>
+            <div class="modal-footer confirm-footer">
+                <button id="confirm-cancel-btn" class="action-btn secondary-btn small-btn">Cancel</button>
+                <button id="confirm-ok-btn" class="action-btn danger-btn small-btn">Proceed</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

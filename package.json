@@ -1,0 +1,34 @@
+{
+  "name": "focusora",
+  "version": "1.1.0",
+  "description": "FocusOra - Premium Distraction-Free Study Clock & Focus Timer for Android",
+  "main": "app.js",
+  "scripts": {
+    "sync": "cap sync",
+    "copy": "cap copy"
+  },
+  "keywords": [
+    "focusora",
+    "study-timer",
+    "pomodoro",
+    "focus-clock",
+    "android",
+    "capacitor",
+    "study-tracker",
+    "ielts",
+    "dark-mode"
+  ],
+  "author": "Atikur Rahman",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "@capacitor/android": "^8.3.4",
+    "@capacitor/core": "^8.3.4",
+    "@capacitor/local-notifications": "^8.2.0",
+    "@capacitor/screen-orientation": "^8.0.1",
+    "@capacitor/status-bar": "^8.0.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.3.4"
+  }
+}
